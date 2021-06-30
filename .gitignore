@@ -1,8 +1,8 @@
 # Compiled class file
 *.class
 # idea and lift file
-./idea/
-./lift/
+.idea/
+.lift/
 *.huf
 *.iml
 *.bwt
