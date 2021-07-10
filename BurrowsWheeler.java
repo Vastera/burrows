@@ -1,15 +1,14 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BurrowsWheeler {
-    private static int first;
-    private static int[] t;
-
     // apply Burrows-Wheeler transform,
     // reading from standard input and writing to standard output
     public static void transform() {
+        int first=0;
         String s = BinaryStdIn.readString();
         CircularSuffixArray csa = new CircularSuffixArray(s);
         int[] t = new int[csa.length()];
@@ -31,17 +30,22 @@ public class BurrowsWheeler {
     // apply Burrows-Wheeler inverse transform,
     // reading from standard input and writing to standard output
     public static void inverseTransform() {
-        int[] firstCol = new int[t.length];
-        for (int i = 0; i < firstCol.length; i++)
-            firstCol[i] = t[i];
+        int first=BinaryStdIn.readInt();
+        ArrayList<Character> t= new ArrayList<>();
+        while (!BinaryStdIn.isEmpty()){
+            t.add(BinaryStdIn.readChar());
+        }
+        Character[] firstCol = new Character[t.size()];
+        firstCol = t.toArray(firstCol);
         Arrays.sort(firstCol);
         int[] next = new int[firstCol.length];
         boolean[] mark = new boolean[firstCol.length];
         for (int i = 0; i < firstCol.length; i++) {
-            for (int j = 0; j < t.length; j++) {
-                if (!mark[j] && firstCol[i] == t[j]) {
+            for (int j = 0; j < t.size(); j++) {
+                if (!mark[j] && firstCol[i].equals(t.get(j))) {
                     next[i] = j;
                     mark[j] = true;
+                    break;
                 }
             }
         }
@@ -49,8 +53,8 @@ public class BurrowsWheeler {
         do {
             BinaryStdOut.write(firstCol[cur]);
             cur = next[cur];
-        } while (cur != 0);
-
+        } while (cur != first);
+        BinaryStdOut.close();
     }
 
     // if args[0] is "-", apply Burrows-Wheeler transform
