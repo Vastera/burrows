@@ -18,10 +18,10 @@ public class CircularSuffixArray {
     private void sort(int lo, int hi, int d) {
         if (hi <= lo) return;
         int lt = lo, gt = hi;
-        char v = csArray(lo, d);
+        int v = csArray(lo, d);
         int i = lo + 1;
         while (i <= gt) {
-            char t = csArray(i, d);
+            int t = csArray(i, d);
             if (t < v) exch(lt++, i++);
             else if (t > v) exch(i, gt--);
             else i++;
@@ -37,13 +37,15 @@ public class CircularSuffixArray {
         order[j] = t;
     }
 
-    private char csArray(int i, int index) {
+    private int csArray(int i, int index) {
         int offset = order[i];
         if (offset < 0 || offset >= length())
             throw new IllegalArgumentException("offset is not in range [0, " + length() + "]!");
-        if (index < 0 || index >= length())
+        if (index < 0)
             throw new IllegalArgumentException(
                     "index=" + index + " is not in range [0, " + length() + "]!");
+        if (index >= length())
+            return -1;
         if (index + offset >= length())
             return originalArray.charAt(offset + index - length());
         else

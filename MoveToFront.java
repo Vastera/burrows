@@ -31,14 +31,14 @@ public class MoveToFront {
 
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
-        char n ;
+        char n;
         char[] charOrder = new char[R];
         for (char c = 0; c < R; c++)
             charOrder[c] = c;
         char w;
-        while (!BinaryStdIn.isEmpty()){
-            n=BinaryStdIn.readChar(8);
-            w=charOrder[n];
+        while (!BinaryStdIn.isEmpty()) {
+            n = BinaryStdIn.readChar(8);
+            w = charOrder[n];
             BinaryStdOut.write(w, 8);
             for (int i = n - 1; i >= 0; i--) {
                 charOrder[i + 1] = charOrder[i];

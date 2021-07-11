@@ -8,7 +8,7 @@ public class BurrowsWheeler {
     // apply Burrows-Wheeler transform,
     // reading from standard input and writing to standard output
     public static void transform() {
-        int first=0;
+        int first = 0;
         String s = BinaryStdIn.readString();
         CircularSuffixArray csa = new CircularSuffixArray(s);
         int[] t = new int[csa.length()];
@@ -30,9 +30,9 @@ public class BurrowsWheeler {
     // apply Burrows-Wheeler inverse transform,
     // reading from standard input and writing to standard output
     public static void inverseTransform() {
-        int first=BinaryStdIn.readInt();
-        ArrayList<Character> t= new ArrayList<>();
-        while (!BinaryStdIn.isEmpty()){
+        int first = BinaryStdIn.readInt();
+        ArrayList<Character> t = new ArrayList<>();
+        while (!BinaryStdIn.isEmpty()) {
             t.add(BinaryStdIn.readChar());
         }
         Character[] firstCol = new Character[t.size()];
@@ -40,6 +40,7 @@ public class BurrowsWheeler {
         Arrays.sort(firstCol);
         int[] next = new int[firstCol.length];
         boolean[] mark = new boolean[firstCol.length];
+        mark[first] = true;
         for (int i = 0; i < firstCol.length; i++) {
             for (int j = 0; j < t.size(); j++) {
                 if (!mark[j] && firstCol[i].equals(t.get(j))) {
@@ -47,8 +48,14 @@ public class BurrowsWheeler {
                     mark[j] = true;
                     break;
                 }
+                else if (j == t.size() - 1) {
+                    next[i] = first;
+                }
             }
         }
+        // for (int i = 0; i < t.size();i++)
+        //     System.out.print(next[i]);
+        // System.out.println();
         int cur = first;
         do {
             BinaryStdOut.write(firstCol[cur]);
