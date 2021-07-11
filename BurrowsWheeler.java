@@ -38,9 +38,14 @@ public class BurrowsWheeler {
         Character[] firstCol = new Character[t.size()];
         firstCol = t.toArray(firstCol);
         Arrays.sort(firstCol);
+        // for (int i=0;i<firstCol.length;i++)
+        //     System.out.print(firstCol[i]);
+        // System.out.println();
+        // for (int i=0;i<t.size();i++)
+        //     System.out.print(t.get(i));
+        // System.out.println(first);
         int[] next = new int[firstCol.length];
         boolean[] mark = new boolean[firstCol.length];
-        mark[first] = true;
         for (int i = 0; i < firstCol.length; i++) {
             for (int j = 0; j < t.size(); j++) {
                 if (!mark[j] && firstCol[i].equals(t.get(j))) {
@@ -50,6 +55,7 @@ public class BurrowsWheeler {
                 }
                 else if (j == t.size() - 1) {
                     next[i] = first;
+                    mark[first]=true;
                 }
             }
         }
@@ -57,10 +63,14 @@ public class BurrowsWheeler {
         //     System.out.print(next[i]);
         // System.out.println();
         int cur = first;
-        do {
+        // do {
+        //     BinaryStdOut.write(firstCol[cur]);
+        //     cur = next[cur];
+        // } while (cur != first);
+        for (int i =0;i<firstCol.length;i++){
             BinaryStdOut.write(firstCol[cur]);
-            cur = next[cur];
-        } while (cur != first);
+            cur=next[cur];
+        }
         BinaryStdOut.close();
     }
 
