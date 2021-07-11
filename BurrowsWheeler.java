@@ -1,8 +1,10 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.Queue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class BurrowsWheeler {
     // apply Burrows-Wheeler transform,
@@ -45,20 +47,34 @@ public class BurrowsWheeler {
         //     System.out.print(t.get(i));
         // System.out.println(first);
         int[] next = new int[firstCol.length];
-        boolean[] mark = new boolean[firstCol.length];
-        for (int i = 0; i < firstCol.length; i++) {
-            for (int j = 0; j < t.size(); j++) {
-                if (!mark[j] && firstCol[i].equals(t.get(j))) {
-                    next[i] = j;
-                    mark[j] = true;
-                    break;
-                }
-                else if (j == t.size() - 1) {
-                    next[i] = first;
-                    mark[first]=true;
-                }
+        // boolean[] mark = new boolean[firstCol.length];
+        // for (int i = 0; i < firstCol.length; i++) {
+        //     for (int j = 0; j < t.size(); j++) {
+        //         if (!mark[j] && firstCol[i].equals(t.get(j))) {
+        //             next[i] = j;
+        //             mark[j] = true;
+        //             break;
+        //         }
+        //         else if (j == t.size() - 1) {
+        //             next[i] = first;
+        //             mark[first]=true;
+        //         }
+        //     }
+        // }
+        HashMap<Character, Queue<Integer>> nextMap = new HashMap<>();
+        for (int i = 0; i < t.size(); i++)
+            if (nextMap.containsKey(t.get(i)))
+                nextMap.get(t.get(i)).enqueue(i);
+            else {
+                Queue<Integer> tempQ = new Queue<>();
+                tempQ.enqueue(i);
+                nextMap.put(t.get(i), tempQ);
             }
-        }
+        for (int i = 0; i < firstCol.length; i++)
+            if (!nextMap.get(firstCol[i]).isEmpty())
+                next[i] = nextMap.get(firstCol[i]).dequeue();
+            else
+                next[i] = first;
         // for (int i = 0; i < t.size();i++)
         //     System.out.print(next[i]);
         // System.out.println();
@@ -67,9 +83,9 @@ public class BurrowsWheeler {
         //     BinaryStdOut.write(firstCol[cur]);
         //     cur = next[cur];
         // } while (cur != first);
-        for (int i =0;i<firstCol.length;i++){
+        for (int i = 0; i < firstCol.length; i++) {
             BinaryStdOut.write(firstCol[cur]);
-            cur=next[cur];
+            cur = next[cur];
         }
         BinaryStdOut.close();
     }
